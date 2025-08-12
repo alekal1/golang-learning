@@ -28,12 +28,12 @@ func WebStatusCheck() {
 
 func fetchOnTick(urls []reader.WebSite, fetched chan reader.WebSite) {
 	var wg sync.WaitGroup
-	for _, url := range urls {
+	for _, website := range urls {
 		wg.Add(1)
 		go func(website reader.WebSite) {
 			defer wg.Done()
-			fetchWebsite(url, fetched)
-		}(url)
+			fetchWebsite(website, fetched)
+		}(website)
 	}
 
 	go func() {

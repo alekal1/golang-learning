@@ -9,13 +9,23 @@ import (
 )
 
 const (
-	filePath = "urls.txt"
+	filePath    = "urls.txt"
+	httpPrefix  = "http://"
+	httpsPrefix = "https://"
 )
 
 type WebSite struct {
 	Status   int
 	Url      string
 	ErrorMsg string
+}
+
+type InvalidUrl struct {
+	msg string
+}
+
+func (e InvalidUrl) Error() string {
+	return e.msg
 }
 
 func (website WebSite) String() string {
@@ -26,18 +36,35 @@ func (website WebSite) String() string {
 	}
 }
 
-func GetWebsites() []WebSite {
+func GetWebsites() ([]error, []WebSite) {
+	file := openFile()
+	defer file.Close()
+
+	return scanFile(file)
+}
+
+func openFile() *os.File {
 	file, err := os.Open(filePath)
+
 	if err != nil {
 		log.Fatal("Did not find urls.txt file!", err)
 	}
-	defer file.Close()
 
+	return file
+}
+
+func scanFile(file *os.File) ([]error, []WebSite) {
 	var websites []WebSite
+	var errors []error
+
 	scanner := bufio.NewScanner(file)
+
 	for scanner.Scan() {
 		line := strings.TrimSpace(scanner.Text())
-		if line != "" {
+
+		if err := validateLineInput(line); err != nil {
+			errors = append(errors, err)
+		} else {
 			websites = append(websites, WebSite{Url: line})
 		}
 	}
@@ -46,5 +73,12 @@ func GetWebsites() []WebSite {
 		log.Fatal("Error with scanner!", err)
 	}
 
-	return websites
+	return errors, websites
+}
+
+func validateLineInput(line string) error {
+	if line == "" || !(strings.HasPrefix(line, httpPrefix) || strings.HasPrefix(line, httpsPrefix)) {
+		return InvalidUrl{fmt.Sprintf("URL '%s' will not be fetched. Should start with '%s' or '%s'", line, httpPrefix, httpsPrefix)}
+	}
+	return nil
 }

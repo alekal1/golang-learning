@@ -2,14 +2,16 @@ package checker
 
 import (
 	reader "aleksale/webchecker/io"
-	"fmt"
+	"aleksale/webchecker/printer"
 	"net/http"
 	"sync"
 	"time"
 )
 
 func WebStatusCheck() {
-	urls := reader.GetWebsites()
+	errors, urls := reader.GetWebsites()
+
+	printer.PrintErrors(errors)
 
 	ticker := time.NewTicker(5 * time.Second)
 
@@ -18,9 +20,7 @@ func WebStatusCheck() {
 
 		fetchOnTick(urls, fetched)
 
-		for w := range fetched {
-			fmt.Println(w)
-		}
+		printer.PrintChanWebsite(fetched)
 
 		<-ticker.C
 	}

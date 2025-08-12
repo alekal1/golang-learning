@@ -1,4 +1,6 @@
 http://google.com
 http://github.com
+no-prefix-url.com
+ws://web-socket-not-allowed:8080
 http://nonexistent.broken
 http://golang.org

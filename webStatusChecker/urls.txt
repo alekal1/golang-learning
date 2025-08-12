@@ -1,0 +1,4 @@
+http://google.com
+http://github.com
+http://nonexistent.broken
+http://golang.org

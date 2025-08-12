@@ -1,5 +1,3 @@
-## This repository is a part of my Golang learning
-
 ## Concurrent Web Status Checker
 Tool that checks the status (HTTP code or availability) of multiple websites concurrently using goroutines and channels.
 

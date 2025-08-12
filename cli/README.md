@@ -1,5 +1,3 @@
-## This repository is a part of my Golang learning
-
 ## CLI app
 Command-line tool in Go that manages a list of tasks.
 

@@ -1,7 +1,5 @@
 package validBraces
 
-import "fmt"
-
 func ValidBraces(str string) bool {
 	stack := []rune{}
 	runes := map[rune]rune{
@@ -11,7 +9,6 @@ func ValidBraces(str string) bool {
 	}
 
 	for _, r := range str {
-		fmt.Println(stack)
 		switch r {
 		case '(', '[', '{':
 			stack = append(stack, r)

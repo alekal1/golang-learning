@@ -1,4 +1,4 @@
-package main
+package reversedStrings
 
 func ReverseString(word string) string {
 	var res string

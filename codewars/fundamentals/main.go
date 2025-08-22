@@ -1,10 +1,10 @@
 package main
 
 import (
-	"fmt"
+	"aleksale/fundamentals/tribonacci"
 )
 
 // Main func to test output from submodules under fundamentals package
 func main() {
-	fmt.Println("")
+	tribonacci.Tribonacci([3]float64{1, 1, 1}, 10)
 }
